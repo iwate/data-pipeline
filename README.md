@@ -1,3 +1,10 @@
+# DataPipeline
+data convert pattern library for redux
+
+# How to use
+
+TODO:
+
 ## License
 The MIT License (MIT)
 Copyright (c) 2016 iwate
