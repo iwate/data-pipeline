@@ -1,4 +1,4 @@
-import actions from './actions'
+import * as actions from './actions'
 import pipeline from '../pipeline'
 import store from './store'
 
