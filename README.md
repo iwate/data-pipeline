@@ -1,5 +1,6 @@
 # DataPipeline
-data convert pattern library for redux
+data convert pattern library for redux.
+[more info](#todo)
 
 # How to use
 
