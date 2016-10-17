@@ -1,8 +1,8 @@
-/* global  requestIdleCallback, setTimeout */
+/* global  setTimeout */
 
 import UriRecognizer  from './uri-recognizer'
 
-const later = requestIdleCallback || (fn => setTimeout(fn, 0))
+const later = window.requestIdleCallback || (fn => setTimeout(fn, 0))
 
 export class Pipeline {
   constructor() {
