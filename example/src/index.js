@@ -20,3 +20,12 @@ const render = () => ReactDOM.render(
 
 render()
 store.subscribe(render)
+
+
+/** 
+ * Trace dataflow in pipeline
+ */
+import { pipeline } from 'data-pipeline'
+pipeline.take('*', function() {
+  console.log('TRACE', this.uri, ...arguments);
+})
