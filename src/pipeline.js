@@ -2,7 +2,7 @@
 
 import UriRecognizer  from './uri-recognizer'
 
-const later = requestIdleCallback || (fn => setTimeout(fn, 0));
+const later = requestIdleCallback || (fn => setTimeout(fn, 0))
 
 export class Pipeline {
   constructor() {
