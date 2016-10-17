@@ -1,4 +1,5 @@
 export const ADD_AJAX = 'ADD_AJAX'
 export const CANCEL_AJAX = 'CANCEL_AJAX'
 export const REMOVE_AJAX = 'REMOVE_AJAX'
+export const REMOVE_AJAX_RANGE = 'REMOVE_AJAX_RANGE'
 export const UPDATE_AJAX_PROGRESS = 'UPDATE_AJAX_PROGRESS'

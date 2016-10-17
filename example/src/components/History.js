@@ -1,30 +1,43 @@
 import React, { Component } from 'react'
-import { AjaxStore as store } from 'data-pipeline'
+import { bindActionCreators  } from 'redux'
+import { connect } from 'react-redux'
 
-export default class History extends Component {
-  constructor(){
-    store.subscribe(() => this.render())
+function cancel(id) {
+  return {
+    type: 'CANCEL_AJAX',
+    id
   }
+}
+function remove(id) {
+  return {
+    type: 'REMOVE_AJAX',
+    id
+  }
+}
+
+class History extends Component {
   render() {
-    const { products } = this.props
-    console.log(this.props)
+    const { requests, cancel, remove } = this.props
     return (
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th><th>Name</th><th>Price</th><th>Description</th>
-          </tr>
-        </thead>
-        <tbody>
-          {products.map(p => (
-            <tr key={p.ID}>
-              <th>{p.ID}</th><th>{p.Name}</th><th>{p.Price}</th><th>{p.Description}</th>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <ul>
+        { requests.map(req => (
+          <li key={req.id}>
+            <span>ID: { req.id }, State: { req.state }, Progress: { req.progress * 100 }% </span>
+            { req.state === 'loading' 
+              ? (<a onClick={cancel.bind(this, req.id)}>cancel</a>)
+              : (<a onClick={remove.bind(this, req.id)}>remove</a>)}
+          </li>
+        ))}
+      </ul>
     )
   }
 }
 
+function mapStateToProps(state) {
+  return { requests: state.ajaxRequests }
+}
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({ cancel, remove }, dispatch)
+}
+export default connect(mapStateToProps, mapDispatchToProps)(History)
 

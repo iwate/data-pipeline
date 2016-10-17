@@ -1,6 +1,6 @@
 {
   "name": "data-pipeline",
-  "version": "0.9.1",
+  "version": "0.9.2",
   "description": "data convert pattern library for redux",
   "main": "lib/index.js",
   "module": "es/index.js",

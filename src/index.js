@@ -1,11 +1,18 @@
 import pipeline from './pipeline'
-import { putReqToPipeline } from './ajax/middlewares'
-import AjaxStore from './ajax/store'
-import AjaxActivity from './ajax/activity'
+import { cancelAjax, putReqToPipeline } from './ajax/middlewares'
+import initAjaxActivity from './ajax/activity'
+import ajaxRequests from './ajax/reducer'
+import ajaxActions from './ajax/actions'
+
+const init = dispatcher => {
+  initAjaxActivity(pipeline, dispatcher)
+}
 
 export {
+  init,
   pipeline,
+  cancelAjax,
   putReqToPipeline,
-  AjaxStore,
-  AjaxActivity
+  ajaxRequests,
+  ajaxActions
 }

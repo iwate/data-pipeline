@@ -1,10 +1,11 @@
 import { createStore, applyMiddleware } from 'redux'
-import products from './reducers/products'
-import { putReqToPipeline } from 'data-pipeline'
+import { cancelAjax, putReqToPipeline } from 'data-pipeline'
+import reducers from './reducers'
 
 const createStoreWithMiddleware = applyMiddleware(
+  cancelAjax,
   putReqToPipeline,
 )(createStore)
-const store = createStoreWithMiddleware(products, [])
+const store = createStoreWithMiddleware(reducers)
 
 export default store
