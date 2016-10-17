@@ -4,9 +4,10 @@ import * as actions from '../src/ajax/actions'
 
 describe('actions', () => {
   it('functions are exist', () => {
-    expect(typeof actions.addAjax).toBe('function')
-    expect(typeof actions.cancelAjax).toBe('function')
-    expect(typeof actions.removeAjax).toBe('function')
-    expect(typeof actions.updateAjax).toBe('function')
+    expect(typeof actions.add).toBe('function')
+    expect(typeof actions.cancel).toBe('function')
+    expect(typeof actions.remove).toBe('function')
+    expect(typeof actions.removeRange).toBe('function')
+    expect(typeof actions.update).toBe('function')
   })
 })
