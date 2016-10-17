@@ -1,17 +1,7 @@
 import React, { Component } from 'react'
 import { bindActionCreators  } from 'redux'
 import { connect } from 'react-redux'
-
-function loadProducts() {
-  return {
-    type: 'SET_PRODUCTS',
-    method: 'GET',
-    url: 'http://services.odata.org/V3/OData/OData.svc/Products',
-    opts: {
-        headers: { accept: 'application/json' }
-    }
-  }
-}
+import actions from '../actions/products'
 
 class Products extends Component {
   render() {
@@ -43,7 +33,7 @@ function mapStateToProps(state) {
   return { products: state.products }
 }
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ loadProducts }, dispatch)
+  return bindActionCreators(actions, dispatch)
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Products)

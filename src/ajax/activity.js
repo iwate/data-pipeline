@@ -28,11 +28,11 @@ export default function initAjaxActivity(pipeline, dispatcher) {
 
     const id = unique()
     const xhr = new window.XMLHttpRequest()
-    const onProgress = ev => ev.lengthComputable && dispatcher.dispatch(actions.updateAjax(id, STATE_LOADING, ev.loaded / ev.total))
-    const onAbort    = () => dispatcher.dispatch(actions.updateAjax(id, STATE_CANCELED, null))
-    const onTimeout  = () => dispatcher.dispatch(actions.updateAjax(id, STATE_TIMEOUT, null))
+    const onProgress = ev => ev.lengthComputable && dispatcher.dispatch(actions.update(id, STATE_LOADING, ev.loaded / ev.total))
+    const onAbort    = () => dispatcher.dispatch(actions.update(id, STATE_CANCELED, null))
+    const onTimeout  = () => dispatcher.dispatch(actions.update(id, STATE_TIMEOUT, null))
     const onLoadend  = () => {
-      dispatcher.dispatch(actions.updateAjax(id, STATE_LOADED, 1.0))
+      dispatcher.dispatch(actions.update(id, STATE_LOADED, 1.0))
       pipeline.put(uri, { status: xhr.status, body: xhr.response })
     }
 
@@ -49,7 +49,7 @@ export default function initAjaxActivity(pipeline, dispatcher) {
     xhr.timeout = opts.timeout
     xhr.withCredentials = opts.withCredentials
 
-    dispatcher.dispatch(actions.addAjax(id, STATE_LOADING, 0, xhr))
+    dispatcher.dispatch(actions.add(id, STATE_LOADING, 0, xhr))
 
     xhr.open(method, url, true, opts.user, opts.password)
     

@@ -1,19 +1,7 @@
 import React, { Component } from 'react'
 import { bindActionCreators  } from 'redux'
 import { connect } from 'react-redux'
-
-function cancel(id) {
-  return {
-    type: 'CANCEL_AJAX',
-    id
-  }
-}
-function remove(id) {
-  return {
-    type: 'REMOVE_AJAX',
-    id
-  }
-}
+import { ajaxActions } from 'data-pipeline'
 
 class History extends Component {
   render() {
@@ -37,7 +25,7 @@ function mapStateToProps(state) {
   return { requests: state.ajaxRequests }
 }
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ cancel, remove }, dispatch)
+  return bindActionCreators(ajaxActions, dispatch)
 }
 export default connect(mapStateToProps, mapDispatchToProps)(History)
 

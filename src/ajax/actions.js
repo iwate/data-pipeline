@@ -1,6 +1,6 @@
 import * as actions from './action-types'
 
-export function addAjax(id, state, progress, xhr) {
+export function add(id, state, progress, xhr) {
   return {
     type: actions.ADD_AJAX,
     id,
@@ -9,25 +9,25 @@ export function addAjax(id, state, progress, xhr) {
     xhr
   }
 }
-export function cancelAjax(id) {
+export function cancel(id) {
   return {
     type: actions.CANCEL_AJAX,
     id
   }
 }
-export function removeAjax(id) {
+export function remove(id) {
   return {
     type: actions.REMOVE_AJAX,
     id
   }
 }
-export function removeAjaxRange(idList) {
+export function removeRange(idList) {
   return {
     type: actions.REMOVE_AJAX,
     idList
   }
 }
-export function updateAjax(id, state, progress) {
+export function update(id, state, progress) {
   return {
     type: actions.UPDATE_AJAX_PROGRESS,
     id,
