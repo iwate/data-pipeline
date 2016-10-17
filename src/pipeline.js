@@ -1,4 +1,8 @@
+/* global  requestIdleCallback, setTimeout */
+
 import UriRecognizer  from './uri-recognizer'
+
+const later = requestIdleCallback || (fn => setTimeout(fn, 0));
 
 export class Pipeline {
   constructor() {
@@ -6,9 +10,11 @@ export class Pipeline {
   }
   put(uri, ...data) {
     const result = this.recognizer.recognize(uri)
-    for (let i = 0; i < result.length; i++) {
-      result[i].handler.apply(result[i], data)
-    }
+    later(() => {
+      for (let i = 0; i < result.length; i++) {
+        result[i].handler.apply(result[i], data)
+      }
+    })
   }
   take(uri, handler) {
     this.recognizer.add(uri, handler)
