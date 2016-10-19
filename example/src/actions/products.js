@@ -3,9 +3,10 @@ export default {
     return {
       type: 'LOAD_PRODUCTS',
       method: 'GET',
-      url: 'http://services.odata.org/V3/OData/OData.svc/Products',
+      url: 'https://services.odata.org/V3/OData/OData.svc/Products',
       opts: {
           headers: { accept: 'application/json' },
+          withCredentials: true,
           tags: ['products', 'throw_middleware']
       }
     }

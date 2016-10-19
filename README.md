@@ -2,7 +2,7 @@
 data convert pattern library for redux.
 [iwate.github.com/data-pipeline](https://iwate.github.com/data-pipeline)
 
-[Demo](http://iwate.github.com/data-pipeline/demo)
+[Demo](https://iwate.github.com/data-pipeline/demo)
 
 # How to use
 ## Install
