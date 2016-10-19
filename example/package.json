@@ -2,6 +2,7 @@
   "name": "example",
   "version": "0.0.1",
   "private": true,
+  "homepage": "https://iwate.github.io/data-pipeline/demo",
   "devDependencies": {
     "enzyme": "^2.4.1",
     "react-addons-test-utils": "^15.3.0",
