@@ -12,6 +12,7 @@ const rootEl = document.getElementById('root')
 const render = () => ReactDOM.render(
   <Provider store={store}>
     <main>
+      <p>allow this resource <a href="https://services.odata.org/V3/OData/OData.svc/Products">https://services.odata.org/V3/OData/OData.svc/Products</a></p>
       <Products />
       <History />
     </main>
