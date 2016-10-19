@@ -16,15 +16,15 @@ const defaultOpts = {
   timeout: 0,
   withCredentials: false,
   tags: [],
-  autoRemove = false
+  autoRemove: false
 }
 
 export default function initAjaxActivity(pipeline, dispatcher) {
-  pipeline.take('requests/*uri', function (request) {
+  pipeline.take('requests/*uri', function (context, request) {
     if (!request || !request.method || !request.url)
       return
 
-    const uri = this.params.uri
+    const uri = context.params.uri
     const { method, url } = request
     const opts = Object.assign({}, defaultOpts, request.opts)
 
