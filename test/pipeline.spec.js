@@ -8,8 +8,8 @@ const META = 'meta'
 describe('pipeline', () => {
   it('pass params and data to callback', () => {
     const pipeline = new Pipeline()
-    pipeline.take('products/:id', function (product, meta) {
-      expect(this.params.id).toEqual('1')
+    pipeline.take('products/:id', function (context, product, meta) {
+      expect(context.params.id).toEqual('1')
       expect(product).toEqual(PRODUCT)
       expect(meta).toEqual(META)
     })
