@@ -6,7 +6,6 @@ export default {
       url: 'https://services.odata.org/V3/OData/OData.svc/Products',
       opts: {
           headers: { accept: 'application/json' },
-          withCredentials: true,
           tags: ['products', 'throw_middleware']
       }
     }
