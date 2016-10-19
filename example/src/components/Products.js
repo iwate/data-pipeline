@@ -32,7 +32,7 @@ class Products extends Component {
    * Dispatchする代わりに、直接Pipelineに載せても良い
    */
   loadProducts() {
-    putRequest('GET', 'http://services.odata.org/V3/OData/OData.svc/Products', {
+    putRequest('GET', 'https://services.odata.org/V3/OData/OData.svc/Products', {
       headers: { accept: 'application/json' },
       tags: ['products', 'direct_pipeline'],
       autoRemove: true
