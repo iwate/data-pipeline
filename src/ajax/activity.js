@@ -14,7 +14,9 @@ const defaultOpts = {
   user: undefined,
   password: undefined,
   timeout: 0,
-  withCredentials: false
+  withCredentials: false,
+  tags: [],
+  autoRemove = false
 }
 
 export default function initAjaxActivity(pipeline, dispatcher) {
@@ -34,6 +36,9 @@ export default function initAjaxActivity(pipeline, dispatcher) {
     const onLoadend  = () => {
       dispatcher.dispatch(actions.update(id, STATE_LOADED, 1.0))
       pipeline.put(uri, { status: xhr.status, body: xhr.response })
+      if(opts.autoRemove){
+        dispatcher.dispatch(actions.remove(id))
+      }
     }
 
     xhr.onprogress = onProgress
@@ -49,7 +54,7 @@ export default function initAjaxActivity(pipeline, dispatcher) {
     xhr.timeout = opts.timeout
     xhr.withCredentials = opts.withCredentials
 
-    dispatcher.dispatch(actions.add(id, STATE_LOADING, 0, xhr))
+    dispatcher.dispatch(actions.add(id, STATE_LOADING, 0, opts.tags, xhr))
 
     xhr.open(method, url, true, opts.user, opts.password)
     

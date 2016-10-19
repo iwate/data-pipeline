@@ -1,11 +1,12 @@
 import * as actions from './action-types'
 
-export function add(id, state, progress, xhr) {
+export function add(id, state, progress, tags, xhr) {
   return {
     type: actions.ADD_AJAX,
     id,
     state,
     progress,
+    tags,
     xhr
   }
 }
