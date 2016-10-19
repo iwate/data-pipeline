@@ -1,0 +1,191 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/winstrap.min.css?0.5.10" />
+    <title>Data Pipeline</title>
+  </head>
+  <body>
+    <nav class="navbar navbar-default">
+        <div class="navbar-local color-accent theme-dark">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-2">
+                        <span class="sr-only">Toggle navigation</span>
+                        <i class="glyph glyph-hamburger"></i>
+                    </button>
+    
+                    <a href="index.html" class="navbar-brand">
+                        Data Pipeline
+                    </a>
+                </div>
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
+                    <ul class="nav navbar-nav">
+                        <!--<li class="dropdown">
+                            <a href="colors.html" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Colors<i class="glyph glyph-chevron-down-2"></i></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="colors.html">All colors</a></li>
+                                <li class="divider"></li>
+                                <li><a href="colors.html#bootstrap-colors">Bootstrap colors</a></li>
+                                <li><a href="colors.html#mdl-colors">MDL colors</a></li>
+                                <li><a href="colors.html#mdl-alt-colors">MDL alt colors</a></li>
+                            </ul>
+                        </li>-->
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <nav role="navigation" id="sidenav" class="nav side-navigation side-navigation-large theme-default">
+            <div class="navigation-label">Data Pipeline</div>
+            <button type="button" class="close" data-dismiss="side-navigation" aria-label="close">
+                <i class="glyph glyph-cancel"></i>
+            </button>
+            <ul>
+                <li><a href="#concept">Concept</a></li>
+                <li><a href="#example">Example</a></li>
+                <li><a href="#howtouse">How to use</a></li>
+                <li><a href="#license">License</a></li>
+            </ul>
+          </nav>
+        </div>
+        <div class="col-md-18">
+          <main>
+            <h2>Data Pipeline</h2>
+            <p>Data Pipelineは<a href="https://github.com/reactjs/redux">Redux</a>)用のデータ変換ライブラリです。また、ここで述べるData PipelineはAWS DataPiplineとは異なります。</p>
+            <p>Data Pipelineはデータ生成者とデータ利用者の依存性を断つことにより、データにまつわる様々な問題を解決することを目標に作成しています。</p>
+
+            <h2 id="concept">Concept</h2>
+            <p>
+              Data PipelineはFluxアーキテクチャにデータを変換するActivityとデータを流すPipelineを追加します。ActivityはPipelineに流れるデータを別のデータに変換してパイプラインに流します。また、Activityからdispatchすることも可能です。
+              起点となるデータはViewもしくはMiddlewareから配置できます。
+            </p>
+            <div class="row">
+              <div class="col-md-20 col-md-offset-2 m-v-sm">
+                <img src="images/data-pipeline.png" width="100%">
+              </div>
+            </div>
+            <p>Data Pipelineに流れるデータには、必ずデータを表すURIが設定します。このURIを観測することで任意のデータに対するハンドラを実行することができます。これはRouterのURLとハンドラの関係に近いと言えます。</p>
+            <p>次のコードは基本的なパイプラインの使用方法です。3つのハンドラが<code>take</code>メソッドで設定されていますが、この3つのハンドラすべてが後の<code>put</code>メソッドでパイプラインに載るデータに対して発火します。</p>
+<pre><code class="language-javascript">
+// pipelineはパイプラインのシングルトンインスタンス
+
+// takeメソッドで、第1引数で指定するURIのデータに対するハンドラを設定する。
+pipeline.take('localhost/products/:id', (context, product) => {
+  console.log(context.uri) // 'localhost/products/1'
+  console.log(context.params.id) // 1
+})
+
+// ルートパラメータ指定に'*'を使用すると、以降の'/'を含む文字列が格納されます。
+pipline.take('localhost/*path', (context, data) => {
+  console.log(context.uri) // 'localhost/products/1'
+  console.log(context.params.path) // 'products/1'
+})
+
+// '*'単体をURI指定するとすべてのデータを監視します。
+pipeline.take('*', (context, payload) => {
+  console.log(context.uri) // 'localhost/products/1'
+})
+
+// データをパイプラインに載せます。
+pipeline.put('localhost/products/1', { name: 'Product A' })
+</code></pre>            
+
+            <p>このData Piplineが効果を発揮するユースケースはAjaxを行って取得するリモートリソースを扱うケースです。通常このケースであれば、Promiseを返す関数(fetchなど)を利用することが定石でしょう。しかし、通信中の状態を取得したい（プログレスなど）、または、その通信中の状態を操作したい（キャンセルなど）場合ではXMLHttpRequestをストアしておくことになります。</p>
+            <p>Data PipelineはRequestデータをAjax用の中間データとしてstoreに保存します。Viewではこの中間データのコレクションを読み、インジゲータの表示などに利用できます。</p>
+            <p>Ajaxが完了した際に、Responseデータがパイプラインに載ります。このResponseデータをハンドリングしてbodyからJSONデータをパースする、もしくは、さらにRequestデータを発行するなど柔軟にデータフローを作成することができます。</p>
+            <div class="row">
+              <div class="col-md-20 col-md-offset-2 m-v-sm">
+                <img src="images/data-flow.png" width="100%">
+              </div>
+            </div>
+            <p>
+             上図では、RequestデータがAjaxの中間データを経て、Responseデータ、目当てのProductデータに移るデータフローを示しています。この中で、パイプラインに流れるデータは青色で表されてる3つのデータです。
+            </p>
+            <p>Data PipelineではRequestデータを処理し、Ajaxの中間データに関するActionを発行するAjaxActivityを提供しているため、ユーザはResponse以降のデータフローを記述することになります。</p>
+            <h2 id="example">Example</h2>
+            <p><a href="https://github.com/iwate/data-pipeline/tree/master/example/src">View example code on Github</a></p>
+            <p><a href="demo">Demo</a></p>
+            <h2 id="libraries">Libraries</h2>
+            <ul>
+              <li><a href="#pipeline">pipeline</a></li>
+              <li><a href="#initajaxactivity">initAjaxActivity</a></li>
+              <li><a href="#ajaxrequests">ajaxRequests</a></li>
+              <li>
+                Middlewares
+                <ul>
+                  <li><a href="#cancelajax">cancelAjax</a></li>
+                  <li><a href="#putreqtopipeline">putReqToPipeline</a></li>
+                </ul>
+              </li>
+            </ul>
+            <h3 id="pipeline">pipeline</h3>
+<pre><code>interface Pipeline {
+  take: (uri: string, handler: (context: { uri: string, params: any }, ...payload: any[]) => void ) => void,
+  put: (uri: string, ...payload: any[] ) => void
+}
+pipeline: Pipeline
+</code></pre>
+            <h3 id="initajaxactivity">initAjaxActivity</h3>
+            <pre><code>initAjaxActivity: (pipeline: Pipeline, dispatcher: { dispatch: (action: any) => void }) => void</code></pre>
+            <h3 id="ajaxrequests">ajaxRequests</h3>
+            ajaxRequests is reducer for ajax requests.
+            <h3 id="cancelajax">cancelAjax</h3>
+            cancelAjax is middleware for ajax requests.
+            <h3 id="putreqtopipeline">putReqToPipeline</h3>
+            putReqToPipeline is middleware for ajax requests.
+
+            <h2 id="howtouse">How to use</h2>
+            <h3>Install</h3>
+<pre><code>npm install data-pipeline</code></pre>
+            <h3>Setup</h3>
+            setup Reducers, Store, and Activities.
+<pre><code>/**
+ * reducer
+ */
+import { combineReducers } from 'redux'
+import { ajaxRequests } from 'data-pipeline'
+
+const reducers combineReducers({ ajaxRequests, /* more reducers! */ })
+
+/**
+ * store
+ */
+import { createStore, applyMiddleware } from 'redux'
+import { cancelAjax, putReqToPipeline } from 'data-pipeline'
+
+const createStoreWithMiddleware = applyMiddleware(
+  cancelAjax,
+  putReqToPipeline,
+)(createStore)
+const store = createStoreWithMiddleware(reducers)
+
+/**
+ * activities
+ */
+import { pipeline, initAjaxActivity } from 'data-pipeline'
+import initProductsActivity from './ProductsActivity'
+
+initAjaxActivity(pipeline, store)
+// more activities...
+// ex. initProductsActivity(pipeline, store)
+</code></pre>
+            <h2 id="license">License</h2>
+            <p>The MIT License (MIT) Copyright (c) 2016 iwate</p>
+            <p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p>
+            <p>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p>
+            <p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
+          </main>
+        </div>
+      </div>
+    </div>
+    
+    
+    <script src="js/vendor/jquery.min.js"></script>
+    <script src="js/vendor/bootstrap.min.js"></script>
+  </body>
+</html>

@@ -1,10 +1,47 @@
-# DataPipeline
+# Data Pipeline
 data convert pattern library for redux.
-[more info](#todo)
+[iwate.github.com/data-pipeline](https://iwate.github.com/data-pipeline)
 
 # How to use
+## Install
+  Install from npm
 
-TODO:
+  npm install data-pipeline
+
+## Setup
+Setup Reducers, Store, and Activities.
+
+```js
+/**
+ * reducer
+ */
+import { combineReducers } from 'redux'
+import { ajaxRequests } from 'data-pipeline'
+
+const reducers combineReducers({ ajaxRequests, /* more reducers! */ })
+
+/**
+ * store
+ */
+import { createStore, applyMiddleware } from 'redux'
+import { cancelAjax, putReqToPipeline } from 'data-pipeline'
+
+const createStoreWithMiddleware = applyMiddleware(
+  cancelAjax,
+  putReqToPipeline,
+)(createStore)
+const store = createStoreWithMiddleware(reducers)
+
+/**
+ * activities
+ */
+import { pipeline, initAjaxActivity } from 'data-pipeline'
+import initProductsActivity from './ProductsActivity'
+
+initAjaxActivity(pipeline, store)
+// more activities...
+// ex. initProductsActivity(pipeline, store)
+```
 
 ## License
 The MIT License (MIT)
