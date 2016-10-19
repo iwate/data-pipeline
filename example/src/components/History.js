@@ -10,10 +10,10 @@ class History extends Component {
       <ul>
         { requests.map(req => (
           <li key={req.id}>
-            <span>ID: { req.id }, State: { req.state }, Progress: { req.progress * 100 }% </span>
+            <span>ID: { req.id }, State: { req.state }, Progress: { req.progress * 100 }%, Tags: { JSON.stringify(req.tags) } </span>
             { req.state === 'loading' 
-              ? (<a onClick={cancel.bind(this, req.id)}>cancel</a>)
-              : (<a onClick={remove.bind(this, req.id)}>remove</a>)}
+              ? (<a href="#" onClick={cancel.bind(this, req.id)}>cancel</a>)
+              : (<a href="#" onClick={remove.bind(this, req.id)}>remove</a>)}
           </li>
         ))}
       </ul>

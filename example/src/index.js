@@ -26,6 +26,6 @@ store.subscribe(render)
  * Trace dataflow in pipeline
  */
 import { pipeline } from 'data-pipeline'
-pipeline.take('*', function() {
-  console.log('TRACE', this.uri, ...arguments);
+pipeline.take('*', function(context, ...payload) {
+  console.log('TRACE', context.uri, ...payload);
 })

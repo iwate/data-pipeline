@@ -1,6 +1,6 @@
 import store from '../store'
-import { init as initDataPipeline } from 'data-pipeline'
+import { pipeline, initAjaxActivity } from 'data-pipeline'
+import initProductsActivity from './ProductsActivity'
 
-initDataPipeline(store)
-
-import './ProductsActivity'
+initAjaxActivity(pipeline, store)
+initProductsActivity(pipeline, store)

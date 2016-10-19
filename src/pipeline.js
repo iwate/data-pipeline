@@ -12,7 +12,7 @@ export class Pipeline {
     const result = this.recognizer.recognize(uri)
     later(() => {
       for (let i = 0; i < result.length; i++) {
-        result[i].handler.apply(result[i], data)
+        result[i].handler(result[i], ...data)
       }
     })
   }

@@ -5,10 +5,6 @@ import ajaxRequests from './ajax/reducer'
 import { cancel, remove, removeRange } from './ajax/actions'
 import { putRequest } from './ajax/utils'
 
-const init = dispatcher => {
-  initAjaxActivity(pipeline, dispatcher)
-}
-
 const ajaxActions = {
   cancel,
   remove,
@@ -16,11 +12,11 @@ const ajaxActions = {
 }
 
 export {
-  init,
   pipeline,
   cancelAjax,
   putReqToPipeline,
   ajaxRequests,
   ajaxActions,
-  putRequest
+  putRequest,
+  initAjaxActivity
 }

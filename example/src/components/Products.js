@@ -33,7 +33,9 @@ class Products extends Component {
    */
   loadProducts() {
     putRequest('GET', 'http://services.odata.org/V3/OData/OData.svc/Products', {
-      headers: { accept: 'application/json' }
+      headers: { accept: 'application/json' },
+      tags: ['products', 'direct_pipeline'],
+      autoRemove: true
     })
   }
 }
