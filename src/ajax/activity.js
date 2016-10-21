@@ -35,7 +35,7 @@ export default function initAjaxActivity(pipeline, dispatcher) {
     const onTimeout  = () => dispatcher.dispatch(actions.update(id, STATE_TIMEOUT, null))
     const onLoadend  = () => {
       dispatcher.dispatch(actions.update(id, STATE_LOADED, 1.0))
-      pipeline.put(uri, { status: xhr.status, body: xhr.response })
+      pipeline.put(`responses/${uri}`, { method, url, status: xhr.status, body: xhr.response })
       if(opts.autoRemove) {
         dispatcher.dispatch(actions.remove(id))
       }
