@@ -2,18 +2,25 @@ export default class UriRecognizer {
   constructor() {
     this.top = { children: [], handlers: [] }
     this.anyHandlers = []
+    this.regexHandlers = []
   }
   add(uri, handler) {
-    if (typeof uri !== 'string')
-      throw '`uri` should be string'
+    if (typeof uri !== 'string' && uri.constructor !== RegExp)
+      throw '`uri` should be string or RegExp'
 
     if (typeof handler !== 'function')
       throw '`handler` should be function'
-    
+
     if (uri === '*') {
       this.anyHandlers.push(handler)
       return
     }
+
+    if (uri.constructor === RegExp) {
+      this.regexHandlers.push({ regex: uri, handler })
+      return
+    }
+
     let node = this.top
     const splited = uri.split('/')
     for (let p of splited) {
@@ -78,9 +85,14 @@ export default class UriRecognizer {
       for (let handler of e.node.handlers)
         result.push({ uri, params: e.params, handler })
     }
-    result.push
     for (let handler of this.anyHandlers) {
       result.push({ uri, params: {}, handler })
+    }
+    for (let rh of this.regexHandlers) {
+      const match = rh.regex.exec(uri)
+      if (match != null) {
+        result.push({ uri, params: { groups: match.slice(1) }, handler: rh.handler })
+      }
     }
 
     return result
