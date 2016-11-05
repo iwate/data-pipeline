@@ -1,7 +1,7 @@
 export default function (pipeline, dispatcher) {
 
   pipeline.take('responses/services.odata.org/V3/OData/OData.svc/Products', (context, response) => {
-    if(response.status == 200) {
+    if(response.status === 200) {
       const data = JSON.parse(response.body)
       console.log(data)
       pipeline.put('products', data.value)
